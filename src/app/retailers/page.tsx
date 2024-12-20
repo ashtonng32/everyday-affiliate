@@ -1,11 +1,10 @@
-import { createClient } from '@supabase/supabase-js';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 import RetailerCard from '@/components/retailers/RetailerCard';
+import { Button } from '@/components/ui/button';
 
-export default async function Home() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+export default async function RetailersPage() {
+  const supabase = createServerComponentClient({ cookies });
   
   const { data: retailers } = await supabase
     .from('retailers')
