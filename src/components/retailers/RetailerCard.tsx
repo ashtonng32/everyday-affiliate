@@ -20,10 +20,32 @@ export default function RetailerCard({ retailer }: RetailerCardProps) {
       return;
     }
 
-    const affiliateUrl = createAffiliateLink(user.id, retailer.base_url, retailer.name);
+    // For testing, let's create some dummy product URLs based on retailer name
+    let testUrl = retailer.base_url;
+    
+    // Add a dummy product path
+    switch(retailer.name.toLowerCase()) {
+      case 'amazon':
+        testUrl = 'https://www.amazon.com/dp/B08N5KWB9H';
+        break;
+      case 'wayfair':
+        testUrl = 'https://www.wayfair.com/furniture/pdp/sofa-W001234567';
+        break;
+      case 'target':
+        testUrl = 'https://www.target.com/p/chair/-/A-12345678';
+        break;
+      case 'walmart':
+        testUrl = 'https://www.walmart.com/ip/product/123456789';
+        break;
+      default:
+        testUrl = `${retailer.base_url}/product/test-item`;
+    }
+
+    const affiliateUrl = createAffiliateLink('user123', testUrl, retailer.name);
     await navigator.clipboard.writeText(affiliateUrl);
-    // TODO: Add a toast notification here
-    alert('Affiliate link copied to clipboard!');
+    
+    // Show the generated URL in an alert for testing
+    alert(`Affiliate link copied to clipboard!\n\nOriginal URL: ${testUrl}\nAffiliate URL: ${affiliateUrl}`);
   };
 
   return (
@@ -46,14 +68,6 @@ export default function RetailerCard({ retailer }: RetailerCardProps) {
         </p>
         
         <div className="space-y-3">
-          <Button
-            className="w-full"
-            variant="default"
-            onClick={() => window.open(retailer.base_url, '_blank')}
-          >
-            Visit Store
-          </Button>
-          
           <Button
             variant="outline"
             className="w-full"
