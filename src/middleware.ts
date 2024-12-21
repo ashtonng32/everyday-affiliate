@@ -3,30 +3,44 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-  const supabase = createMiddlewareClient({ req, res });
+  try {
+    const res = NextResponse.next();
+    const supabase = createMiddlewareClient({ req, res });
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    // Refresh session if exists
+    const { data: { session } } = await supabase.auth.getSession();
 
-  // If there's no session and the user is trying to access a protected route
-  if (!session && (
-    req.nextUrl.pathname.startsWith('/dashboard') ||
-    req.nextUrl.pathname.startsWith('/retailers')
-  )) {
-    const redirectUrl = new URL('/auth/signin', req.url);
-    redirectUrl.searchParams.set('redirectTo', req.nextUrl.pathname);
-    return NextResponse.redirect(redirectUrl);
+    // Special handling for callback route
+    if (req.nextUrl.pathname === '/auth/callback') {
+      const code = req.nextUrl.searchParams.get('code');
+      if (code) {
+        return res;
+      }
+    }
+
+    // Handle protected routes
+    if (!session && req.nextUrl.pathname.startsWith('/retailers')) {
+      return NextResponse.redirect(new URL('/auth/signup', req.url));
+    }
+
+    // Handle auth routes when already authenticated
+    if (session && (
+      req.nextUrl.pathname === '/auth/signup' ||
+      req.nextUrl.pathname === '/auth/signin'
+    )) {
+      return NextResponse.redirect(new URL('/retailers', req.url));
+    }
+
+    return res;
+  } catch (error) {
+    console.error('Middleware error:', error);
+    return NextResponse.next();
   }
+}
 
-  // If there's a session and the user is trying to access auth routes
-  if (session && (
-    req.nextUrl.pathname.startsWith('/auth/signin') ||
-    req.nextUrl.pathname.startsWith('/auth/signup')
-  )) {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
-  }
-
-  return res;
+export const config = {
+  matcher: [
+    '/retailers',
+    '/auth/:path*',
+  ],
 }

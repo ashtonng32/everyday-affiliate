@@ -1,0 +1,133 @@
+2024-12-20 19:13:26 | INFO | Starting link regeneration process
+2024-12-20 19:13:26 | ERROR | Link regeneration process failed: Invalid URL
+2024-12-20 19:14:24 | INFO | Starting link regeneration process
+2024-12-20 19:14:24 | ERROR | Link regeneration process failed: Invalid URL
+2024-12-20 19:18:07 | INFO | Starting link regeneration process
+2024-12-20 19:18:07 | ERROR | Link regeneration process failed: Missing Supabase credentials
+2024-12-20 19:18:54 | INFO | Starting link regeneration process
+2024-12-20 19:18:56 | INFO | Found 0 links to process
+2024-12-20 19:18:56 | INFO | No links to process
+2024-12-20 19:18:56 | INFO | Link regeneration process completed successfully
+2024-12-20 19:24:14 | INFO | Starting link regeneration process
+2024-12-20 19:24:15 | INFO | Found 1 links to process
+2024-12-20 19:24:32 | ERROR | Failed to login to Amazon: Frame.fill() missing 1 required positional argument: 'value'
+2024-12-20 19:24:33 | ERROR | Failed to process clicked links: Frame.fill() missing 1 required positional argument: 'value'
+2024-12-20 19:24:33 | ERROR | Link regeneration process failed: Frame.fill() missing 1 required positional argument: 'value'
+2024-12-20 19:25:35 | INFO | Starting link regeneration process
+2024-12-20 19:25:36 | INFO | Found 1 links to process
+2024-12-20 19:26:11 | ERROR | Failed to load Amazon: Timeout 30000ms exceeded.
+2024-12-20 19:26:15 | ERROR | Failed to process clicked links: Timeout 30000ms exceeded.
+2024-12-20 19:26:15 | ERROR | Link regeneration process failed: Timeout 30000ms exceeded.
+2024-12-20 19:26:32 | INFO | Starting link regeneration process
+2024-12-20 19:26:33 | INFO | Found 1 links to process
+2024-12-20 19:26:38 | ERROR | Failed to load Amazon: value: expected string, got undefined
+2024-12-20 19:26:38 | ERROR | Failed to process clicked links: value: expected string, got undefined
+2024-12-20 19:26:38 | ERROR | Link regeneration process failed: value: expected string, got undefined
+2024-12-20 19:26:55 | INFO | Starting link regeneration process
+2024-12-20 19:26:56 | INFO | Found 1 links to process
+2024-12-20 19:26:59 | ERROR | Failed to login to Amazon: value: expected string, got undefined
+2024-12-20 19:26:59 | ERROR | Failed to process clicked links: value: expected string, got undefined
+2024-12-20 19:26:59 | ERROR | Link regeneration process failed: value: expected string, got undefined
+2024-12-20 19:27:16 | INFO | Starting link regeneration process
+2024-12-20 19:27:17 | INFO | Found 1 links to process
+2024-12-20 19:27:52 | ERROR | Failed to login to Amazon: Timeout 30000ms exceeded.
+2024-12-20 19:27:53 | ERROR | Failed to process clicked links: invalid state
+2024-12-20 19:27:53 | ERROR | Link regeneration process failed: invalid state
+2024-12-20 19:28:11 | INFO | Starting link regeneration process
+2024-12-20 19:28:12 | INFO | Found 1 links to process
+2024-12-20 19:28:47 | ERROR | Failed to login to Amazon: Timeout 30000ms exceeded.
+2024-12-20 19:28:47 | ERROR | Failed to process clicked links: Timeout 30000ms exceeded.
+2024-12-20 19:28:47 | ERROR | Link regeneration process failed: Timeout 30000ms exceeded.
+2024-12-20 19:30:32 | INFO | Starting link regeneration process
+2024-12-20 19:30:33 | INFO | Found 1 links to process
+2024-12-20 19:31:08 | ERROR | Failed to login to Amazon: Timeout 30000ms exceeded.
+2024-12-20 19:31:09 | ERROR | Failed to process clicked links: invalid state
+2024-12-20 19:31:09 | ERROR | Link regeneration process failed: invalid state
+2024-12-20 19:31:53 | INFO | Starting link regeneration process
+2024-12-20 19:31:54 | INFO | Found 1 links to process
+2024-12-20 19:32:29 | ERROR | Failed to login to Amazon: Timeout 30000ms exceeded.
+2024-12-20 19:32:29 | ERROR | Failed to process clicked links: invalid state
+2024-12-20 19:32:29 | ERROR | Link regeneration process failed: invalid state
+2024-12-20 19:33:02 | INFO | Starting link regeneration process
+2024-12-20 19:33:03 | INFO | Found 1 links to process
+2024-12-20 19:33:08 | ERROR | Failed to login to Amazon: Frame.fill() missing 1 required positional argument: 'value'
+2024-12-20 19:33:08 | ERROR | Failed to process clicked links: Frame.fill() missing 1 required positional argument: 'value'
+2024-12-20 19:33:08 | ERROR | Link regeneration process failed: Frame.fill() missing 1 required positional argument: 'value'
+2024-12-20 19:33:30 | INFO | SUPABASE_URL: https://ufvjmtayhtcwgixxhjly.supabase.co
+2024-12-20 19:33:30 | INFO | AMAZON_EMAIL: your_amazon_associates_email
+2024-12-20 19:33:30 | INFO | Starting link regeneration process
+2024-12-20 19:33:31 | INFO | Found 1 links to process
+2024-12-20 19:33:36 | ERROR | Failed to login to Amazon: Error: strict mode violation: locator("#continue") resolved to 2 elements:
+    1) <span id="continue" class="a-button a-button-span12 a-…>…</span> aka locator("#continue").first
+    2) <input id="continue" type="submit" class="a-button-inpu…/> aka get_by_label("Continue")
+
+2024-12-20 19:33:36 | ERROR | Failed to process clicked links: Error: strict mode violation: locator("#continue") resolved to 2 elements:
+    1) <span id="continue" class="a-button a-button-span12 a-…>…</span> aka locator("#continue").first
+    2) <input id="continue" type="submit" class="a-button-inpu…/> aka get_by_label("Continue")
+
+2024-12-20 19:33:36 | ERROR | Link regeneration process failed: Error: strict mode violation: locator("#continue") resolved to 2 elements:
+    1) <span id="continue" class="a-button a-button-span12 a-…>…</span> aka locator("#continue").first
+    2) <input id="continue" type="submit" class="a-button-inpu…/> aka get_by_label("Continue")
+
+2024-12-20 19:34:57 | INFO | SUPABASE_URL: https://ufvjmtayhtcwgixxhjly.supabase.co
+2024-12-20 19:34:57 | INFO | AMAZON_EMAIL: your_amazon_associates_email
+2024-12-20 19:34:57 | INFO | Starting link regeneration process
+2024-12-20 19:34:58 | INFO | Found 1 links to process
+2024-12-20 19:38:13 | INFO | SUPABASE_URL: https://ufvjmtayhtcwgixxhjly.supabase.co
+2024-12-20 19:38:13 | INFO | AMAZON_EMAIL: your_amazon_associates_email
+2024-12-20 19:38:13 | INFO | Starting link regeneration process
+2024-12-20 19:38:14 | INFO | Found 1 links to process
+2024-12-20 19:39:11 | INFO | Current working directory: c:\Users\ashto\OneDrive\Documents\Interior Concept\Everday Affliate\everyday-affiliate\scripts
+2024-12-20 19:39:11 | INFO | Loading .env from current directory
+2024-12-20 19:39:11 | INFO | Loading .env.local from parent directory
+2024-12-20 19:39:11 | INFO | Environment variables loaded:
+2024-12-20 19:39:11 | INFO | SUPABASE_URL: https://ufvjmtayhtcwgixxhjly.supabase.co
+2024-12-20 19:39:11 | INFO | AMAZON_EMAIL: your_amazon_associates_email
+2024-12-20 19:40:38 | INFO | Current working directory: c:\Users\ashto\OneDrive\Documents\Interior Concept\Everday Affliate\everyday-affiliate\scripts
+2024-12-20 19:40:38 | INFO | Loading .env from current directory
+2024-12-20 19:40:38 | INFO | Loading .env.local from parent directory
+2024-12-20 19:40:38 | INFO | Environment variables loaded:
+2024-12-20 19:40:38 | INFO | SUPABASE_URL: https://ufvjmtayhtcwgixxhjly.supabase.co
+2024-12-20 19:40:38 | INFO | AMAZON_EMAIL: your_amazon_associates_email
+2024-12-20 19:41:05 | INFO | Current working directory: c:\Users\ashto\OneDrive\Documents\Interior Concept\Everday Affliate\everyday-affiliate\scripts
+2024-12-20 19:41:05 | INFO | Loading .env from current directory
+2024-12-20 19:41:05 | INFO | Environment variables loaded:
+2024-12-20 19:41:05 | INFO | SUPABASE_URL: None
+2024-12-20 19:41:05 | INFO | AMAZON_EMAIL: your_amazon_associates_email
+2024-12-20 19:41:21 | INFO | Current working directory: c:\Users\ashto\OneDrive\Documents\Interior Concept\Everday Affliate\everyday-affiliate\scripts
+2024-12-20 19:41:21 | INFO | Loading .env from current directory
+2024-12-20 19:41:21 | INFO | Environment variables loaded:
+2024-12-20 19:41:21 | INFO | SUPABASE_URL: https://ufvjmtayhtcwgixxhjly.supabase.co
+2024-12-20 19:41:21 | INFO | AMAZON_EMAIL: ashtonng32@gmail.com
+2024-12-20 19:41:21 | INFO | Starting link regeneration process
+2024-12-20 19:41:22 | INFO | Found 1 links to process
+2024-12-20 19:41:57 | ERROR | Failed to login to Amazon: Timeout 30000ms exceeded.
+=========================== logs ===========================
+"commit" event fired
+"domcontentloaded" event fired
+"load" event fired
+============================================================
+2024-12-20 19:41:58 | ERROR | Failed to process clicked links: invalid state
+2024-12-20 19:41:58 | ERROR | Link regeneration process failed: invalid state
+2024-12-20 19:44:41 | INFO | Current working directory: c:\Users\ashto\OneDrive\Documents\Interior Concept\Everday Affliate\everyday-affiliate\scripts
+2024-12-20 19:44:41 | INFO | Loading .env from current directory
+2024-12-20 19:44:41 | INFO | Environment variables loaded:
+2024-12-20 19:44:41 | INFO | SUPABASE_URL: https://ufvjmtayhtcwgixxhjly.supabase.co
+2024-12-20 19:44:41 | INFO | AMAZON_EMAIL: ashtonng32@gmail.com
+2024-12-20 19:44:41 | INFO | Starting link regeneration process
+2024-12-20 19:44:42 | INFO | Found 1 links to process
+2024-12-20 19:45:45 | INFO | Current working directory: c:\Users\ashto\OneDrive\Documents\Interior Concept\Everday Affliate\everyday-affiliate\scripts
+2024-12-20 19:45:45 | INFO | Loading .env from current directory
+2024-12-20 19:45:45 | INFO | Environment variables loaded:
+2024-12-20 19:45:45 | INFO | SUPABASE_URL: https://ufvjmtayhtcwgixxhjly.supabase.co
+2024-12-20 19:45:45 | INFO | AMAZON_EMAIL: ashtonng32@gmail.com
+2024-12-20 19:45:45 | INFO | Starting link regeneration process
+2024-12-20 19:45:47 | INFO | Found 1 links to process
+2024-12-20 19:46:22 | ERROR | Failed to login to Amazon: Timeout 30000ms exceeded.
+=========================== logs ===========================
+"commit" event fired
+"domcontentloaded" event fired
+"load" event fired
+============================================================
+2024-12-20 19:46:23 | ERROR | Failed to process clicked links: invalid state
+2024-12-20 19:46:23 | ERROR | Link regeneration process failed: invalid state

@@ -31,7 +31,7 @@ export function SignInForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
       {error && (
         <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm">
           {error}
@@ -49,6 +49,7 @@ export function SignInForm() {
           onChange={(e) => setEmail(e.target.value)}
           className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black h-9"
           required
+          autoComplete="username email"
         />
       </div>
       
@@ -63,6 +64,7 @@ export function SignInForm() {
           onChange={(e) => setPassword(e.target.value)}
           className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black h-9"
           required
+          autoComplete="current-password"
         />
       </div>
       

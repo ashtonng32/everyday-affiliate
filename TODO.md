@@ -29,4 +29,11 @@
      NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
      ```
 
+## Amazon Link Management
+- [ ] Fix Amazon Link Regeneration Script
+  1. Debug login timeout issues in `regenerate_links.py`
+  2. Test different approaches for waiting for SiteStripe elements
+  3. Consider implementing retry logic for failed login attempts
+  4. Add more detailed error logging for troubleshooting
+
 Date Added: 2024-12-20

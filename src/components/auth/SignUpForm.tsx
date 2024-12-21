@@ -1,147 +1,225 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+
+const formSchema = z.object({
+  firstName: z.string().min(1, {
+    message: 'Please enter your first name.',
+  }),
+  lastName: z.string().min(1, {
+    message: 'Please enter your last name.',
+  }),
+  email: z.string().email({
+    message: 'Please enter a valid email.',
+  }),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/[0-9]/, 'Password must contain at least one number')
+    .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
 
 export function SignUpForm() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [confirmEmail, setConfirmEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { signUp } = useAuth();
+  const supabase = createClientComponentClient();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
 
-    // Validate emails match
-    if (email !== confirmEmail) {
-      setError('Emails do not match');
-      return;
-    }
+  // Watch for changes in the password field
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === 'password') {
+        form.setValue('confirmPassword', value.password || '', { shouldValidate: true });
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
 
-    setIsLoading(true);
-    
+  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await signUp(email, password, {
-        data: {
-          first_name: firstName,
-          last_name: lastName,
-          full_name: `${firstName} ${lastName}`.trim(),
+      setError('');
+      setIsLoading(true);
+
+      // First, sign up the user
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          data: {
+            first_name: data.firstName,
+            last_name: data.lastName,
+            full_name: `${data.firstName} ${data.lastName}`,
+          },
         },
       });
-      
-      // Show success message and redirect to email verification page
-      router.push('/auth/verify-email');
-    } catch (err) {
-      setError('Error signing up. Please try again.');
-      console.error('Signup error:', err);
+
+      if (signUpError) throw signUpError;
+
+      // Check if email confirmation is required
+      if (signUpData?.user && !signUpData.user.confirmed_at) {
+        // Store email for resend functionality
+        window.localStorage.setItem('confirmEmail', data.email);
+        router.push('/auth/confirm');
+      } else {
+        // If no confirmation required, redirect to retailers
+        router.push('/retailers');
+      }
+    } catch (error: any) {
+      console.error('Signup error:', error);
+      setError(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {error && (
-        <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm">
-          {error}
-        </div>
-      )}
-      
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-            First Name
-          </label>
-          <input
-            id="firstName"
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 h-9 text-black"
-            required
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3" autoComplete="on">
+        <div className="grid grid-cols-2 gap-3">
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First name</FormLabel>
+                <FormControl>
+                  <Input 
+                    placeholder="John" 
+                    {...field} 
+                    className="h-9"
+                    disabled={isLoading}
+                    autoComplete="given-name"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last name</FormLabel>
+                <FormControl>
+                  <Input 
+                    placeholder="Doe" 
+                    {...field} 
+                    className="h-9"
+                    disabled={isLoading}
+                    autoComplete="family-name"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-        
-        <div>
-          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-            Last Name
-          </label>
-          <input
-            id="lastName"
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 h-9 text-black"
-            required
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="you@example.com" 
+                  {...field} 
+                  className="h-9"
+                  disabled={isLoading}
+                  type="email"
+                  autoComplete="email"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="space-y-3">
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <PasswordInput
+                    {...field}
+                    className="h-9"
+                    disabled={isLoading}
+                    autoComplete="new-password"
+                  />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm password</FormLabel>
+                <FormControl>
+                  <PasswordInput
+                    {...field}
+                    className="h-9"
+                    disabled={isLoading}
+                    autoComplete="new-password"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-      </div>
-      
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 h-9 text-black"
-          required
-        />
-      </div>
-
-      <div>
-        <label htmlFor="confirmEmail" className="block text-sm font-medium text-gray-700">
-          Confirm Email
-        </label>
-        <input
-          id="confirmEmail"
-          type="email"
-          value={confirmEmail}
-          onChange={(e) => setConfirmEmail(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 h-9 text-black"
-          required
-        />
-      </div>
-      
-      <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 h-9 text-black"
-          required
-          minLength={6}
-        />
-        <p className="mt-1 text-sm text-gray-500">
-          Must be at least 6 characters
-        </p>
-      </div>
-      
-      <Button type="submit" className="w-full h-9" disabled={isLoading}>
-        {isLoading ? 'Creating account...' : 'Sign Up'}
-      </Button>
-
-      <p className="text-center text-sm text-gray-600">
-        Already have an account?{' '}
-        <Link href="/auth/signin" className="text-black font-semibold hover:underline">
-          Sign in
-        </Link>
-      </p>
-    </form>
+        {error && (
+          <div className="text-sm text-red-500 mt-1">
+            {error}
+          </div>
+        )}
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Creating account...' : 'Create account'}
+        </Button>
+      </form>
+    </Form>
   );
 }

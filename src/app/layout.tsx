@@ -1,24 +1,24 @@
-import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import { AuthProvider } from '@/contexts/AuthContext';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
 import { Header } from '@/components/layout/Header';
-import "./globals.css";
+import { AuthProvider } from '@/contexts/AuthContext';
 
-const geist = Geist({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Everyday Affiliate",
-  description: "Share and earn from your favorite retailers",
+  title: 'Everyday Affiliate',
+  description: 'Share your favorite products and earn commissions',
 };
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body className={geist.className}>
+      <body className={inter.className}>
         <AuthProvider>
           <div className="min-h-screen bg-gray-50">
             <Header />

@@ -7,39 +7,61 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const generateSessionId = () => nanoid();
+interface AffiliateProgram {
+  id: string;
+  retailer_id: string;
+  program_name: string;
+  affiliate_id: string;
+  base_url: string;
+  affiliate_parameter: string;
+}
 
-export const createAffiliateLink = (
-  userId: string,
-  retailerUrl: string,
-  retailerName: string
-): string => {
+interface CreateAffiliateLinkParams {
+  userId: string;
+  clickId: string;
+  productUrl: string;
+  affiliateProgram: AffiliateProgram;
+}
+
+export const createAffiliateLink = ({
+  userId,
+  clickId,
+  productUrl,
+  affiliateProgram,
+}: CreateAffiliateLinkParams): string => {
   try {
-    const url = new URL(retailerUrl);
-    const domain = url.hostname.toLowerCase();
-
-    // Add tracking parameter based on retailer domain
-    if (domain.includes('amazon')) {
-      // Amazon affiliate format
-      url.searchParams.append('tag', `${userId}-20`);
-    } else if (domain.includes('wayfair')) {
-      // Wayfair affiliate format
-      url.searchParams.append('refid', userId);
-    } else if (domain.includes('target')) {
-      // Target affiliate format
-      url.searchParams.append('afid', userId);
-    } else if (domain.includes('walmart')) {
-      // Walmart affiliate format
-      url.searchParams.append('wmlspartner', userId);
-    } else {
-      // Generic format for other retailers
-      url.searchParams.append('ref', userId);
+    const url = new URL(productUrl);
+    
+    // For Amazon specifically, we need to handle their affiliate structure differently
+    if (url.hostname.includes('amazon')) {
+      // Clear any existing affiliate tags
+      url.searchParams.delete('tag');
+      
+      // Add our affiliate tag - this needs to be first for Amazon
+      url.searchParams.set('tag', affiliateProgram.affiliate_id);
+      
+      // Add a special parameter that Amazon uses to track the original referrer
+      url.searchParams.set('ref', 'everydayaffiliate');
+      
+      // Add our tracking parameters at the end
+      url.searchParams.append('ea_click', clickId);
+      url.searchParams.append('ea_user', userId);
+      
+      return url.toString();
     }
+    
+    // For other retailers, use the standard approach
+    url.searchParams.append('ea_click', clickId);
+    url.searchParams.append('ea_user', userId);
+    url.searchParams.append(
+      affiliateProgram.affiliate_parameter,
+      affiliateProgram.affiliate_id
+    );
 
     return url.toString();
   } catch (error) {
     console.error('Error creating affiliate link:', error);
-    return retailerUrl; // Return original URL if there's an error
+    return productUrl;
   }
 };
 
@@ -51,5 +73,7 @@ export const formatCurrency = (amount: number) => {
 };
 
 export const calculateCommission = (amount: number, rate: number) => {
-  return (amount * rate) / 100;
+  return amount * (rate / 100);
 };
+
+export const generateSessionId = () => nanoid();
